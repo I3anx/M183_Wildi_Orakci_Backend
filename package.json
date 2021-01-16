@@ -1,0 +1,27 @@
+{
+  "name": "m183_wildi_orakci_backend",
+  "version": "1.0.0",
+  "description": "Security Application for Modul 183 gibb",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongo": "^0.1.0",
+    "mongoose": "^5.11.8",
+    "nodemon": "^2.0.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/I3anx/M183_Wildi_Orakci_Backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/I3anx/M183_Wildi_Orakci_Backend/issues"
+  },
+  "homepage": "https://github.com/I3anx/M183_Wildi_Orakci_Backend#readme"
+}
