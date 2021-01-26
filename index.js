@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const authRoute = require('./router/auth');
 const postRoute = require('./router/posts');
 const rateLimit = require("express-rate-limit");
+const cors = require('cors');
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ const limiter = rateLimit({
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.use('/api/user', limiter, authRoute);
 app.use('/api/posts', postRoute);
