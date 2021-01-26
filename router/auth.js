@@ -25,12 +25,12 @@ router.post('/register', async (req, res) => {
     })
     try {
         const savedUser = await user.save();
-        res.send(savedUser._id);
+        res.send(`Registration of ${savedUser.username} was successful.`);
     } catch (err) {
         return res.status(400).send(err);
     }
 
-    fs.appendFile('registrationLogs.txt', `User ${savedUser.username} has registered`, function (err) {
+    fs.appendFile('registrationLogs.txt', `User ${user.username} has registered\n`, function (err) {
         if (err) throw err;
     });
 });
@@ -45,13 +45,12 @@ router.post('/login', async (req, res) => {
     const validatedPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validatedPassword) return res.status(400).send('Invalid Password');
 
-    fs.appendFile('loginLogs.txt', `User ${user.username} logged in`, function (err) {
+    fs.appendFile('loginLogs.txt', `User ${user.username} logged in\n`, function (err) {
         if (err) throw err;
     });
 
     const token = jwt.sign({ _id: user._id, role: user.role }, process.env.TOKEN_SECRET);
-    res.header('auth-token', token).send(token);
-    // res.send(token);
+    res.header('auth-token', token).send(`Login of ${user.username} successful`);
 });
 
 module.exports = router;
