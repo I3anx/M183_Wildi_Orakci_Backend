@@ -3,8 +3,7 @@ const User = require('../model/User');
 const { registerValidation, loginValidation } = require('../validation');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
-
+var fs = require('fs');
 
 router.post('/register', async (req, res) => {
     // validate user data
@@ -28,8 +27,12 @@ router.post('/register', async (req, res) => {
         const savedUser = await user.save();
         res.send(savedUser._id);
     } catch (err) {
-        res.status(400).send(err);
+        return res.status(400).send(err);
     }
+
+    fs.appendFile('registrationLogs.txt', `User ${savedUser.username} has registered`, function (err) {
+        if (err) throw err;
+    });
 });
 
 router.post('/login', async (req, res) => {
@@ -42,9 +45,13 @@ router.post('/login', async (req, res) => {
     const validatedPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validatedPassword) return res.status(400).send('Invalid Password');
 
-    const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+    fs.appendFile('loginLogs.txt', `User ${user.username} logged in`, function (err) {
+        if (err) throw err;
+    });
+
+    const token = jwt.sign({ _id: user._id, role: user.role }, process.env.TOKEN_SECRET);
     res.header('auth-token', token).send(token);
-    res.send(token);
+    // res.send(token);
 });
 
 module.exports = router;
